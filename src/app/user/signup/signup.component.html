@@ -1,12 +1,23 @@
-<div style="text-align: center">
+<div style=" justify-content: center">
 <div *ngIf="didFail">
   <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3 text-center">
     <div class="alert alert-danger">Something went wrong, please try again!</div>
   </div>
 </div>
+<div *ngIf="confirmUser">
+    <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3 text-center">
+      <div class="alert alert-warning">Enter the validation code sent to your mail!</div>
+    </div>
+</div>  
+
+<div *ngIf="isConfirmed">
+    <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3 text-center">
+      <div class="alert alert-success">Your Account was successfully created!</div>
+    </div>
+</div>  
 <div >
-  <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3">
-    <form class="text-center " (ngSubmit)="onSubmit()" #usrForm="ngForm">
+  <div  *ngIf="!confirmUser" class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3">
+    <form  class="text-center " (ngSubmit)="onSubmit()" #usrForm="ngForm">
       <div class="form-group">
         <label style = "color: powderblue"
           for="username"
@@ -66,26 +77,10 @@
 </div>
 
 <br><br>
-<div class="row" *ngIf="!confirmUser">
-  <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3 text-center">
-    <button class="btn btn-secondary" (click)="onDoConfirm()">Confirm User</button>
-  </div>
-</div>
-<div class="row" *ngIf="confirmUser">
+
+<div *ngIf="confirmUser">
   <div class="col-xs-12 col-sm-10 col-md-6 cold-sm-offset-1 col-md-offset-3">
     <form #confirmForm="ngForm" (ngSubmit)="onConfirm(confirmForm.value)" class=" text-center">
-      <div class="form-group">
-        <label style = "color: powderblue"
-          for="usrName"
-          class="control-label">Username</label>
-        <input
-          type="text"
-          id="usrName"
-          name="usrName"
-          ngModel
-          class="form-control text-center"
-          required>
-      </div>
       <div class="form-group">
         <label style = "color: powderblue"
           for="validationCode"

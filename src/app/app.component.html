@@ -9,7 +9,7 @@
 ></ng-progress>
 
 
-<nav class="navbar navbar-expand-lg navbar-inverse ">
+<nav class="navbar navbar-expand-lg navbar-inverse fixed-top " style="background-color: black">
   <a style="color: #A0A0AB" class="navbar-brand" href="https://www.procan-group.com/">proCAN</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -22,10 +22,10 @@
        <div  *ngIf="isAuthenticated" routerLinkActive="active"><a style="color: #A0A0AB" class="nav-link" routerLink="/home">Home</a></div>
       </li>
       <li class="nav-item">
-        <div *ngIf="isAuthenticated" routerLinkActive="active"><a  style="color: #A0A0AB" class="nav-link" routerLink="/our-courses">Courses</a></div>
+        <div *ngIf="isAuthenticated" routerLinkActive="active"><a  style="color: #A0A0AB" class="nav-link" routerLink="/courses">Courses</a></div>
        </li>
        <li class="nav-item">
-        <div *ngIf="isAuthenticated" routerLinkActive="active"><a  style="color: #A0A0AB" class="nav-link" routerLink="/allUsers">Users</a></div>
+        <div *ngIf="isAuthenticated" routerLinkActive="active"><a  style="color: #A0A0AB" class="nav-link" routerLink="/users">Users</a></div>
        </li>
        <li class="nav-item">
         <div *ngIf="isAuthenticated" routerLinkActive="active"><a style="color: #A0A0AB"  class="nav-link" routerLink="/services">Services</a></div>
@@ -52,16 +52,22 @@
 
 
 <br><br><br><br>
-<p style="text-align:center">
-</p>
 
 <div class="loader" *ngIf= "showLoadingIndicator"></div>
 <div class="container">
-    <div >
+    <div style="justify-content: center">
       
+    <div >
+        <p style="text-align:center">
+
       <router-outlet></router-outlet>
+    </p>
+
     </div>
+    </div>
+
 </div>
+
 
 
 
