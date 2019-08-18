@@ -1,0 +1,302 @@
+<div class="loader" *ngIf="isLoading"></div>
+<div *ngIf="isLoading==false">
+<div class="loader" *ngIf= "showLoadingIndicator"></div>
+
+
+<div   style="text-align:center">
+    <form  style="text-align: center"  class="form-inline my-2 my-lg-0">
+      <input  style="text-align: center" (input)="tcode=$event.target.value" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+  
+      <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (keyup.enter)="searchCourse(onSubmitSearch())" (click)="searchCourse(onSubmitSearch())"><img  src="assets/img/search.png" width="30" height="30" alt="search" title="search" /></button>
+  
+      <button type="button" class="btn btn-link"  (click)="autouriserAjout()" ><img  src="assets/img/add.png" width="30" height="search" alt="add" title="add" /></button>
+  
+    </form>
+    </div>
+<ul  style="padding-top: 1cm; padding-left: 25%; padding-right: 25% ; padding-bottom: 1cm">
+    
+    <li  style="width: 1cm" style = "background-image: url('assets/img/background10.jpg')"  class="list-group-item d-flex justify-content-between align-items-center" *ngIf="isAddAutorized()"  >
+      <div style ="text-align:right">
+      </div>
+        <div style ="text-align:center">
+            <form  style="text-align: center" class="form-inline">
+                <div >
+                  <label style = "color: powderblue" for="exampleInputEmail1">Course Name</label>
+                  <input (input)="cName=$event.target.value" size="30" type="search" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter courseName">
+                </div>
+                <br>
+                <div>
+                    <label style = "color: powderblue" > Number of hours</label>
+                  <input type="number" name="quantity" min="0" max="150" (input)="nbHours=$event.target.value"class="form-control"  >
+                </div>
+                
+                <br>
+                <div class="form">
+                  <label for="exampleFormControlFile1" style = "color: powderblue">Course Icon</label>
+                  <input align="center" type="file" class="form-control" accept="image/png, image/jpeg" style = "background-image: url('assets/img/background10.jpg')" id="exampleFormControlFile1">
+                </div>
+                <br>
+
+                <br>
+              </form>
+
+                    <div class="form">
+                        <label for="exampleFormControlFile1" style = "color: powderblue">Images</label>
+
+                      <div *ngFor="let image of allImages" class="custom-control custom-checkbox mb-3">
+                        <input  (change)="onCheckImage(image.image_name, $event.target.checked)" class="form-check-input" class="custom-control-input" type="checkbox" id="{{image.image_name}}" name="{{image.image_name}}"> 
+                        <label style="color: #A0A0AB" class="custom-control-label"  for="{{image.image_name}}"> {{image.image_name}} </label>
+                      </div>
+                    </div>
+                    <div  class="form-inline">
+
+                    <div *ngFor="let os of checkedImageArray" class="span-inline">
+                      
+                      <span class="badge badge-success">{{os}}</span>
+                    </div>
+                    </div>
+                    </div>
+                <button type="button" class="btn btn-link" (click)="addCourse(cName,nbHours)" ><img  src="assets/img/confirm.jpg" width="30" height="search" alt="add" title="add" /></button>
+                <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberAjout()"><img  src="assets/img/hide.png" width="20" height="20" alt="add" title="add" /></button>
+
+
+                
+             
+
+
+
+      </li>
+    </ul>
+
+  
+      <ul  style="padding-left: 15%; padding-right: 15% " class="list-group" *ngFor="let cours of allCourses">
+        <li  style = "background-image: url('assets/img/background10.jpg')" class="list-group-item d-flex justify-content-between align-items-center">
+           
+          <img src="{{getURL( cours.cours_name ) }}" width="30" height="30" alt={{cours.cours_name}} title={{cours.cours_name}} /> 
+           <button type="button" class="btn btn-link" (click)="onClickCourse(cours.cours_name)" ><h4 style="color: powderblue"><B>{{cours.cours_name}}</B></h4></button>
+           <button style="float: right;" class="btn btn-link"  (click)="autoriserDelete(cours.cours_name)" ><img  src="assets/img/delete.jpg" align="right" width="20" height="20" alt="delete" title="delete" /></button> 
+     
+      <ul style="padding-left: 15%; padding-right: 15% "  style = "background-image: url('assets/img/background10.jpg')"   *ngIf="toDeleteCourse(cours.cours_name)"  >
+            <div   style ="text-align:center">
+              <img  src="assets/img/alert.png" width="20" height="20" />
+
+    <label><B>Are you sure to delete {{cours.cours_name}}?</B></label>
+    <br>
+                    <button  style="font-size: 80%" type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="deleteCourse(cours.cours_name)" >
+                        <img  src="assets/img/confirm.jpg"   align="right" width="20" height="20" alt="Yes" title="Yes" />
+
+                    </button>
+                    <button  style="font-size: 80%"  type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberDelete(cours.cours_name)">
+                        <img  src="assets/img/hide.png"   align="right" width="20" height="20" alt="No" title="No" />
+
+                    </button>
+            </div>
+          </ul>
+                 
+
+
+
+
+    <div class="info" *ngIf="isActif(cours.cours_name)" >
+          <div style ="text-align:center" >
+            
+              <h3 style="color: powderblue">Course: {{cours.cours_name}}</h3>
+              <img  src=" {{getURL(cours.cours_name)}} " width="100" height="125" alt={{cours.cours_name}} title={{cours.cours_name}}/> 
+    
+              <div>
+
+                      <div *ngFor="let resu of coursDetails">
+                    <table style="color: powderblue" align ="center">
+                      <tr>
+                        <td><h4><B>Duration :</B></h4></td>
+                        <td *ngIf= "isEditable(cours.cours_name)!=true"><span style="font-size: 80%" class="badge badge-success">{{resu.nb_hours}} hours</span>
+                      </td>
+                      <td *ngIf= "isEditable(cours.cours_name)!=true"><button  style="float: right;" class="btn btn-link" (click)="autoriserEdit(cours.cours_name)"><img  src="assets/img/edit1.jpg" width="15" height="15" alt="edit" title="edit" /></button>
+                      </td>
+                      <td *ngIf="isEditable(cours.cours_name)">
+                          <input style = "height: 60%; width: 80%" type="number" name="quantity" min="0" max="150" value={{resu.nb_hours}} (input)="nbHours=$event.target.value"class="form-control"  >
+                      </td> 
+                      <td *ngIf="isEditable(cours.cours_name)">
+                          <button style="float: right;" class="btn btn-link" (click)="editCourse(cours.cours_name,nbHours)">
+                            <img  src="assets/img/confirm.jpg" align="right" width="15" height="15"  />
+                              </button>
+                      </td>
+                      <td *ngIf="isEditable(cours.cours_name)">
+                              <button style="float: right;" class="btn btn-link" >
+                                  <img  src="assets/img/hide.png" (click)="inhiberEdit(cours.cours_name)" width="15" height="15" alt="delete" title="delete" />
+                                    </button>
+                    </td>
+                    
+                      </tr> 
+                    </table>
+                  </div>
+       
+                </div>  
+
+              <div   style="color: rgb(160, 160, 160)" >
+                  <button type="button" class="btn btn-link" (click)="getAvailableOs(cours.cours_name)"><h4  style="color: powderblue" ><B>Available images:</B></h4></button>
+                  <button *ngIf="isAjoutImage(cours.cours_name)!=true" type="button" class="btn btn-link" (click)="autoriserAjoutImage(cours.cours_name)" ><img  src="assets/img/add.png" width="15" height="15" alt="add" title="add" /></button>
+                <br>
+
+                <div *ngIf="isAjoutImage(cours.cours_name)">
+                  <label style = "color: powderblue" for="exampleInputEmail1">Image Name</label>
+                    <select  style="text-align: center" style="color: rgb(160, 160, 160)"   (change)="getSelectedImage($event)" id="inputState" >
+                          <option selected>Choose... </option>
+                        <option  *ngFor="let image of allImages">{{image.image_name}}</option>
+                      </select>           
+                      <button type="button" class="btn btn-link" (click)="    addImagetoCourse(cours.cours_name,getImageInput()) "  ><img  src="assets/img/confirm.jpg" width="15" height="15" alt="add" title="add" /></button>
+                      <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberAjoutImage(cours.cours_name)"><img  src="assets/img/hide.png" width="15" height="15" alt="hide" title="hide" /></button>
+                    </div>
+
+                </div>
+                 
+
+
+                  <div  *ngFor="let os of availableOs" class="span-inline">
+                    <table style="color: powderblue" align ="center">
+                      <tr>
+                        <td>
+                      <span style="font-size: 80%" class="badge badge-success">{{os.image_name}}</span></td>
+
+                      <td> 
+                          <button style="float: right;" class="btn btn-link" (click)="autoriserDeleteOs(os.image_name)" >
+                        <img  src="assets/img/delete.jpg"   align="right" width="15" height="15" alt="delete" title="delete" />
+                          </button>
+                      </td>
+
+                    </tr>
+                    </table>
+                    
+
+                    <ul *ngIf="toDeleteCourseOs(os.image_name)"  style="padding-left: 15%; padding-right: 15% "  style = "background-image: url('assets/img/background10.jpg')"    >
+                      <div   style ="text-align:center">
+                        <img  src="assets/img/alert.png" width="15" height="15" />
+
+              <label style="color: rgba(182, 182,182 , 0.3)">Are you sure to delete {{os.image_name}} from {{cours.cours_name}}?</label>
+                             
+                            <button  type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="deleteAvailableImage(cours.cours_name,os.image_name)">
+                                <img  src="assets/img/confirm.jpg"   align="right" width="15" height="15" alt="Yes" title="Yes" />
+                            </button>
+                              <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberDeleteOs(os.image_name)" >
+                                <img  src="assets/img/hide.png"   align="right" width="15" height="15" alt="No" title="No" />
+
+                              </button>
+                      </div>
+                    </ul>
+
+
+
+
+
+                      
+                    </div>
+
+             <div style="color: powderblue" >
+
+              
+              <div *ngFor="let i of nbUsers">
+            <table  style="color: powderblue" align ="center">
+              <tr >
+                  <td><button type="button" class="btn btn-link" style="color: powderblue" (click)="getNb(cours.cours_name)"><h4><B>Number of subscribers: </B></h4></button></td>
+                  <td><span style="font-size: 80%" class="badge badge-success">{{i.nb_Subscribed}}</span></td>
+         
+  
+  
+              </tr>
+  
+            </table>
+          </div>
+  
+        </div> 
+
+  
+  <table style="color: powderblue" align ="center">
+    <tr>
+      <td>
+ 
+              <div  style="color: powderblue">
+                      <button type="button" class="btn btn-link" (click)="getTeacher(cours.cours_name,'teacher')"><h4  style="color: powderblue"><B>Subscribed Teachers:</B></h4></button>
+
+                      <div *ngFor="let teacher of teacherDetails">
+                    <table style="color: powderblue" align ="center">
+                      <tr >
+                 <td>
+                    <span style="font-size: 80%" class="badge badge-success">{{teacher.username}}</span>
+
+                 </td>
+                       <td> 
+                         <button style="float: right;" class="btn btn-link" (click)="autoriserDelete(teacher.username)">
+                          <img  src="assets/img/delete.jpg" align="right" width="15" height="15" alt="delete" title="delete" />
+                        </button> 
+                      </td>
+                      </tr>
+    
+                    </table>
+
+
+                    <ul  style="padding-left: 15%; padding-right: 15% "  style = "background-image: url('assets/img/background10.jpg')"   *ngIf="toDeleteCourse(teacher.username)"  >
+                      <div   style ="text-align:center">
+                        <img  src="assets/img/alert.png" width="15" height="15" />
+
+              <label style="color: rgba(182, 182,182 , 0.3)">Are you sure to delete {{teacher.username}} from {{cours.cours_name}}?</label>
+                             
+                            <button  type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="deleteTeacher(cours.cours_name,teacher.username)">
+                                <img  src="assets/img/confirm.jpg"   align="right" width="15" height="15" alt="Yes" title="Yes" />
+
+                            </button>
+                              <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberDelete(teacher.username)">
+                                  <img  src="assets/img/hide.png"   align="right" width="15" height="15" alt="No" title="No" />
+
+                              </button>
+                      </div>
+                    </ul> 
+                  </div>
+       
+                </div> 
+      </td>
+      <td>
+    
+              <div  style="color: powderblue">
+                  <button type="button" class=" btn btn-link " (click)="getStudent(cours.cours_name,'student')"><h4  style="color: powderblue"><B>Subscribed Students:</B></h4></button>
+                    <div *ngFor="let student of studentDetails">
+                      <table style="color: powderblue" align ="center">
+                        <tr >
+                          <td><span  style="font-size: 80%" class="badge badge-success">{{student.username}}</span></td>
+                           <td> <button style="float: right;" class="btn btn-link" (click)="autoriserDelete(student.username)"><img  src="assets/img/delete.jpg" align="right" width="15" height="15" alt="delete" title="delete" /></button> 
+  
+                          </td>
+                        </tr>
+                      </table>
+
+                      <ul  style="padding-left: 15cm; padding-right: 15cm "  style = "background-image: url('assets/img/background10.jpg')"   *ngIf="toDeleteCourse(student.username)"  >
+                        <div   style ="text-align:center">
+                          <img  src="assets/img/alert.png" width="15" height="15" />
+                <label style="color: rgba(182, 182,182 , 0.3)">Are you sure to delete {{student.username}} from {{cours.cours_name}}?</label>
+                                <button  type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="deleteStudent(cours.cours_name,student.username)">
+                                    <img  src="assets/img/confirm.jpg"   align="right" width="15" height="15" alt="Yes" title="Yes" />
+
+                                </button>
+                                <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberDelete(student.username)">
+                                    <img  src="assets/img/hide.png"   align="right" width="15" height="15" alt="Yes" title="Yes" />
+
+                                </button>
+                        </div>
+                      </ul> 
+  
+                    </div>
+                  </div> 
+      </td>
+    </tr></table>
+                  <br>
+          <button  style="font-size: 80%"  type="button" class="btn btn-danger"(click)="initialiser(cours.cours_name)">Hide</button>
+  <br>
+        </div>
+      </div>
+
+      </li>
+  
+    
+  
+    </ul>
+        
+</div>

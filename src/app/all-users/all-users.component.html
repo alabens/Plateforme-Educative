@@ -1,0 +1,179 @@
+<div class="loader" *ngIf="isLoading"></div>
+<div *ngIf="isLoading==false">
+
+<div style="text-align:center">
+  <form style="text-align: center"  class="form-inline my-2 my-lg-0">
+
+    <input style= "padding-left: 30% ; padding-right: 30%" (input)="teachers=$event.target.value" class="form-control mr-sm-2" type="search" placeholder="Search teacher" aria-label="Search teacher">
+    <button  type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="searchTeacher(onSubmitTeachers())" ><img  src="assets/img/search.png" width="30" height="search" alt="search" title="search" /></button>
+
+
+  <input   style= "padding-left: 30% ; padding-right: 30%"  (input)="students=$event.target.value" class="form-control mr-sm-2" type="search" placeholder="Search student" aria-label="Search student">
+  <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="searchStudent(onSubmitStudents())" ><img  src="assets/img/search.png" width="30" height="search" alt="edit" title="search" /></button>
+</form>
+
+</div >
+<br>
+<div style="text-align: center" >
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-secondary" (click)="getAllUsers()" >All users</button>
+
+  <button type="button" class="btn btn-secondary" (click)="getAllTeachers()">Teachers</button>
+  <button type="button" class="btn btn-secondary" (click)="getAllStudents()" >Students</button>
+</div>
+<button type="button" class="btn btn-link"  (click)="autouriserAjout()" ><img  src="assets/img/add.png" width="30" height="search" alt="add" title="add" /></button>
+
+</div>
+
+
+  <ul style="padding-top: 0.5cm; padding-left: 25%; padding-right: 25% ; padding-bottom: 1cm">
+    
+      <li style="width: 1cm" style = "background-image: url('assets/img/background10.jpg')"  class="list-group-item d-flex justify-content-between align-items-center" *ngIf="isAddAutorized()"  >
+        <div style ="text-align:right">
+        <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberAjout()"><img  src="assets/img/hide.png" width="20" height="20" alt="add" title="add" /></button>
+        </div>
+          <div style ="text-align:center">
+
+              <form class="form-inline">
+                  <div >
+                    <label style = "color: powderblue" for="exampleInputEmail1">UserName</label>
+                    <input (input)="name=$event.target.value" size="30" type="text" class="form-control"  placeholder="Enter UserName">
+                  </div>
+                  <br>
+                  <div >
+                      <label style = "color: powderblue" for="exampleInputEmail1">Email</label>
+                      <input (input)="mail=$event.target.value" size="30" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email">
+                    </div>
+                    <br>                  
+                  <div >
+                      <label style = "color: powderblue" for="exampleInputEmail1">Role</label>
+                      <select   (change)="getSelectedRole($event)" class= "form-control">
+                        <option selected>Choose...</option>
+                        <option>teacher</option>
+                        <option>student</option>
+
+                      </select>
+
+                    </div>           
+                    <br>
+              <button type="button" class="btn btn-link" (click)="addUser(getNameInput(),getMailInput(),getRoleInput())"  ><img  src="assets/img/add.png" width="30" height="search" alt="add" title="add" /></button>
+  
+  
+                  
+                </form>
+  
+  
+          </div>
+  
+        </li>
+      </ul>
+<br><br>  
+
+    <ul   style="padding-left: 15%; padding-right: 15% "  class="list-group" *ngFor="let user of allUsers" >
+      <li style = "background-image: url('assets/img/background10.jpg')"   class="list-group-item d-flex justify-content-between align-items-center">
+        <img src="assets/img/user.jpg" align="left" width="100" height="100" alt="" title="" /> 
+        
+
+          <table style="font-size: 50%" style="color: powderblue" align ="center">
+              <td >
+                <tr> <h6><B>Username:   </B></h6></tr>
+                <tr><h6><B>Mail:</B></h6> </tr>
+                <tr > <h6><B>Role: </B></h6> </tr>
+                <tr *ngIf="isEditable(user.username)!=true" > <h6><B>Subscribed Courses: </B></h6> </tr>
+
+              </td>
+              <td *ngIf="isEditable(user.username)!=true">
+                <tr><h6>{{user.username}}</h6></tr>
+                <tr><h6>{{user.mail}}</h6></tr>
+                <tr ><h6>{{user.role}}</h6></tr>
+                <tr ><label *ngFor="let c of subscribedCourses.get(user.username) " ><span class="badge badge-success">{{c.cours_name}}</span></label></tr>
+
+              </td>
+
+              <td *ngIf="isEditable(user.username)" >
+                <tr><h6>{{user.username}}</h6></tr>
+                <tr>
+                  <input height="60%" (input)="mail=$event.target.value" size="30" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" value={{user.mail}}>
+                </tr>
+                <tr>
+                    <select *ngIf="user.role=='teacher'"  (change)="getSelectedRole($event)" class= "form-control"  >
+                        <option selected>teacher</option>
+                        <option>student</option>
+                      </select>
+                      <select *ngIf="user.role=='student'"  (change)="getSelectedRole($event)" class= "form-control"  >
+                          <option selected >student</option>
+                          <option>teacher</option>
+                        </select>
+
+                </tr>
+              </td>
+ 
+            
+            </table>
+            
+            <div style= "text-align: center" *ngIf="isEditable(user.username)">
+              <button  style="font-size: 80%" type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="EditUser(user.username,getMailInput(),getRoleInput())"  >
+                <img  src="assets/img/confirm.jpg"   align="right" width="20" height="20" alt="Yes" title="Yes" />
+              </button>
+            <button  style="font-size: 80%"  type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberEdit(user.username)">
+                <img  src="assets/img/hide.png"   align="right" width="20" height="20" alt="No" title="No" />
+              </button>
+            </div>
+
+            <button *ngIf="isEditable(user.username)!=true && isInscriptionAutorized(user.username)!=true && toDeleteUser(user.username)!=true" style="float: right;" class="btn btn-link" (click)="autoriserDelete(user.username)"><img  src="assets/img/delete.jpg" align="right" width="20" height="20" alt="delete {{user.username}}" title="delete {{user.username}}" /></button> 
+            <button  *ngIf="isEditable(user.username)!=true && isInscriptionAutorized(user.username)!=true && toDeleteUser(user.username)!=true" style="float: right;" class="btn btn-link"(click)="autoriserEdit(user.username)" ><img  src="assets/img/edit2.png" align="right" width="20" height="20" alt="edit" title="edit" /></button>
+            <button *ngIf="isEditable(user.username)!=true && isInscriptionAutorized(user.username)!=true && toDeleteUser(user.username)!=true" style="float: right;" (click)="autoriserInscription(user.username)" class="btn btn-link" ><img  src="assets/img/addInscription2.png" align="center" width="20" height="20" alt="add course to {{user.username}}" title="add course to {{user.username}}" /></button> 
+
+            <ul style="padding-left: 15%; padding-right: 15% "  style = "background-image: url('assets/img/background10.jpg')"   *ngIf="toDeleteUser(user.username)"  >
+              <div   style ="text-align:center">
+                <img  src="assets/img/alert.png" width="20" height="20" />
+  
+      <label><B>Are you sure to delete {{user.username}}?</B></label>
+                      <button  style="font-size: 80%" type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="deleteUser(user.username,user.user_id)" >
+                          <img  src="assets/img/confirm.jpg"   align="right" width="20" height="20" alt="Yes" title="Yes" />
+                        </button>
+                      <button  style="font-size: 80%"  type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberDelete(user.username)">
+                          <img  src="assets/img/hide.png"   align="right" width="20" height="20" alt="No" title="No" />
+                        </button>
+              </div>
+            </ul>
+  
+
+            <ul style="padding-top: 0cm; padding-left: 15%; padding-right: 15% ; padding-bottom: 1cm">
+    
+              <li style="width: 1cm" style = "background-image: url('assets/img/background10.jpg')"  class="list-group-item d-flex justify-content-between align-items-center" *ngIf="isInscriptionAutorized(user.username)"  >
+                <div style ="text-align:right">
+                </div>
+                  <div style ="text-align:center">
+          
+                      <form class="form-inline">
+              
+                        <div >
+                          <label style = "color: powderblue" for="exampleInputEmail1">Course Name</label>
+                          <select  style="font-size: 80%"  (change)="getSelectedCourse($event)" id="inputState" class="form-control">
+                              <option selected>Choose a course...</option>
+                            <option  *ngFor="let cours of allCourses">{{cours.cours_name}}</option>
+                          </select>
+                          <button type="button" class="btn btn-link" (click)="addInscription(user.username,getCourseNameInput())"  ><img  src="assets/img/add.png" width="20" height="20" alt="add" title="add" /></button>
+                          <button type="button" class="btn btn-link" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="inhiberInscription(user.username)"><img  src="assets/img/hide.png" width="20" height="20" alt="hide" title="hide" /></button>
+
+                        </div>          
+          
+          
+                          
+                        </form>
+          
+          
+                  </div>
+          
+                </li>
+              </ul>
+        
+
+      </li>
+
+
+  </ul>
+
+  
+</div>

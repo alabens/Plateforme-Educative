@@ -1,0 +1,68 @@
+<ng-progress
+    [positionUsing]="'marginLeft'"
+    [direction]="'leftToRightIncreased'"
+    [color]="'#A0A0AB'"
+    [trickleSpeed]="500" 
+    [thick]="true" 
+    [ease]="'easeInSine'"
+    
+></ng-progress>
+
+
+<nav class="navbar navbar-expand-lg navbar-inverse ">
+  <a style="color: #A0A0AB" class="navbar-brand" href="https://www.procan-group.com/">proCAN</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul  class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+       <div  *ngIf="isAuthenticated" routerLinkActive="active"><a style="color: #A0A0AB" class="nav-link" routerLink="/home">Home</a></div>
+      </li>
+      <li class="nav-item">
+        <div *ngIf="isAuthenticated" routerLinkActive="active"><a  style="color: #A0A0AB" class="nav-link" routerLink="/our-courses">Courses</a></div>
+       </li>
+       <li class="nav-item">
+        <div *ngIf="isAuthenticated" routerLinkActive="active"><a  style="color: #A0A0AB" class="nav-link" routerLink="/allUsers">Users</a></div>
+       </li>
+       <li class="nav-item">
+        <div *ngIf="isAuthenticated" routerLinkActive="active"><a style="color: #A0A0AB"  class="nav-link" routerLink="/services">Services</a></div>
+       </li>
+      <li class="nav-item ">
+        <a style="color: #A0A0AB" *ngIf="isAuthenticated" class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div *ngIf="isAuthenticated" routerLinkActive="active"><a (click)="onLogout()" style="cursor: pointer;"> Logout</a></div>
+
+        </a>
+      </li>
+      <li class="nav-item">
+        <div  *ngIf="!isAuthenticated" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" ><a style="color: #A0A0AB"  class="nav-link" href="">Sign in</a></div>
+       </li>
+       <li class="nav-item">
+        <div  *ngIf="!isAuthenticated" routerLinkActive="active"  ><a  style="color: #A0A0AB" class="nav-link" routerLink="signup">Sign Up</a></div>
+       </li>
+
+  
+    </ul>
+    
+  </div>
+</nav>
+
+
+
+<br><br><br><br>
+<p style="text-align:center">
+</p>
+
+<div class="loader" *ngIf= "showLoadingIndicator"></div>
+<div class="container">
+    <div >
+      
+      <router-outlet></router-outlet>
+    </div>
+</div>
+
+
+
+
