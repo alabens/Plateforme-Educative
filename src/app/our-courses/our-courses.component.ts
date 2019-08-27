@@ -1,19 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 
-interface coursData{
-  coursId: number;
-  coursName: string;
-  nbHours: number;
-}
-
-interface userData{
-  userID: number;
-  userName: string;
-  userMail: string ;
-  userRole: string ;
-
-}
 
 @Component({
   selector: 'app-our-courses',

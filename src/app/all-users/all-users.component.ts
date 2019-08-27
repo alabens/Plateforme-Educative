@@ -341,9 +341,10 @@ addInscription(user: string , cours:string ){
       try{
       this.addService(user,cours);
       } catch(e) {alert("try again"); return;}
-      this.isLoading=false; 
 
       alert("Added  Successfully!");
+      this.isLoading=false; 
+
       this.getAllUsers();
 
 

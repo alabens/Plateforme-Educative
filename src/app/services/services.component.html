@@ -10,7 +10,6 @@
 
   </form>
   </div>
-          <br><br>
           <ul style="padding-top: 0cm; padding-left: 25%; padding-right: 25% ; padding-bottom: 1cm">
     
             <li style="width: 1cm" style = "background-image: url('assets/img/background10.jpg')"  class="list-group-item d-flex justify-content-between align-items-center" *ngIf="isAddAutorized()"  >
@@ -20,7 +19,6 @@
                 <div style ="text-align:center">
                   <h4 style = "color: powderblue"><B>Add Service</B></h4>
         
-                  <br>
                     <form class="form-inline">
                         <div >
                           <label style = "color: powderblue" for="exampleInputEmail1">User Name</label>
@@ -29,7 +27,6 @@
                             <option  *ngFor="let user of allUsers">{{user.username}}</option>
                           </select>
                         </div>
-                        <br>
                         <div >
                           <label style = "color: powderblue" for="exampleInputEmail1">Course Name</label>
                           <select (change)="getSelectedCourse($event)" id="inputState" class="form-control">
@@ -37,7 +34,6 @@
                             <option  *ngFor="let cours of allCourses">{{cours.cours_name}}</option>
                           </select>
                         </div>   
-                        <br>
                      
                         <div >
                           <label style = "color: powderblue" for="exampleInputEmail1">Image Name</label>
@@ -46,13 +42,11 @@
                             <option *ngFor="let image of allImages">{{image.image_name}}</option>
                           </select>
                         </div>           
-                        <br><br>
                    <button  type="button" class="btn btn-link"  ><img  src="assets/img/add.png" width="30" height="search" alt="add" title="add" /></button>
 
         
                         
                       </form>
-                      <br><br>
         
         
                 </div>
@@ -60,13 +54,6 @@
               </li>
             </ul>
 
-
-  
-  
-  
-    <br>
-    <br>
-    <br>  
   
     <ul style="padding-left: 15%; padding-right: 15% " class="list-group" *ngFor="let service of allServices">
       <li   style = "background-image: url('assets/img/background10.jpg')"  class="list-group-item d-flex justify-content-between align-items-center">
